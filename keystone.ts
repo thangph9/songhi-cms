@@ -47,5 +47,12 @@ export default withAuth(
       cors: { origin: ['http://localhost:8080'], credentials: true },
       maxFileSize: 200 * 1024 * 1024
     },
+    images: {
+      upload: 'local',
+      local: {
+        storagePath: 'public/images',
+        baseUrl: '/images',
+      },
+    }
   })
 );

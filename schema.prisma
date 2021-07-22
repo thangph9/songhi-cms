@@ -17,29 +17,49 @@ model User {
 }
 
 model Post {
-  id              String         @id @default(cuid())
+  id              String    @id @default(cuid())
+  orderId         Int?      @unique @default(autoincrement())
   title           String?
   status          String?
+  short_content   Json?
   content         Json?
-  seo_meta        String?
-  seo_description String?
+  image_filesize  Int?
+  image_extension String?
+  image_width     Int?
+  image_height    Int?
+  image_mode      String?
+  image_id        String?
+  meta_title      String?
+  meta_desc       String?
   publishDate     DateTime?
-  author          User?          @relation("Post_author", fields: [authorId], references: [id])
-  authorId        String?        @map("author")
-  tags            Tag[]          @relation("Post_tags_Tag_posts")
-  category        PostCategory[] @relation("Post_category_PostCategory_posts")
+  author          User?     @relation("Post_author", fields: [authorId], references: [id])
+  authorId        String?   @map("author")
+  tags            Tag[]     @relation("Post_tags_Tag_posts")
+  order           Int?
 
   @@index([authorId])
 }
 
 model Tag {
-  id    String  @id @default(cuid())
-  name  String?
-  posts Post[]  @relation("Post_tags_Tag_posts")
+  id         String    @id @default(cuid())
+  orderId    Int?      @unique @default(autoincrement())
+  name       String?
+  group      TagGroup? @relation("Tag_group", fields: [groupId], references: [id])
+  groupId    String?   @map("group")
+  posts      Post[]    @relation("Post_tags_Tag_posts")
+  order      Int?
+  meta_title String?
+  meta_desc  String?
+
+  @@index([groupId])
 }
 
-model PostCategory {
-  id    String  @id @default(cuid())
-  name  String?
-  posts Post[]  @relation("Post_category_PostCategory_posts")
+model TagGroup {
+  id         String  @id @default(cuid())
+  orderId    Int?    @unique @default(autoincrement())
+  name       String?
+  tags       Tag[]   @relation("Tag_group")
+  order      Int?
+  meta_title String?
+  meta_desc  String?
 }
