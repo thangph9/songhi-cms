@@ -1,10 +1,9 @@
 import { config } from '@keystone-next/keystone/schema';
 import { statelessSessions } from '@keystone-next/keystone/session';
 import { createAuth } from '@keystone-next/auth';
-
 import { lists } from './schema';
+require('dotenv').config()
 let sessionSecret = process.env.SESSION_SECRET;
-
 if (!sessionSecret) {
   if (process.env.NODE_ENV === 'production') {
     throw new Error(
