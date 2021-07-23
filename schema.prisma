@@ -9,7 +9,7 @@ generator client {
 }
 
 model User {
-  id       String  @id @default(cuid())
+  id       Int     @id @default(autoincrement())
   name     String?
   email    String? @unique
   password String?
@@ -17,8 +17,7 @@ model User {
 }
 
 model Post {
-  id              String    @id @default(cuid())
-  orderId         Int?      @unique @default(autoincrement())
+  id              Int       @id @default(autoincrement())
   title           String?
   status          String?
   short_content   Json?
@@ -31,35 +30,34 @@ model Post {
   image_id        String?
   meta_title      String?
   meta_desc       String?
+  fb_post         String?
   publishDate     DateTime?
   author          User?     @relation("Post_author", fields: [authorId], references: [id])
-  authorId        String?   @map("author")
+  authorId        Int?      @map("author")
   tags            Tag[]     @relation("Post_tags_Tag_posts")
-  order           Int?
+  orderId         Int?      @unique @default(autoincrement())
 
   @@index([authorId])
 }
 
 model Tag {
-  id         String    @id @default(cuid())
-  orderId    Int?      @unique @default(autoincrement())
+  id         Int       @id @default(autoincrement())
   name       String?
   group      TagGroup? @relation("Tag_group", fields: [groupId], references: [id])
-  groupId    String?   @map("group")
+  groupId    Int?      @map("group")
   posts      Post[]    @relation("Post_tags_Tag_posts")
-  order      Int?
   meta_title String?
   meta_desc  String?
+  orderId    Int?      @unique @default(autoincrement())
 
   @@index([groupId])
 }
 
 model TagGroup {
-  id         String  @id @default(cuid())
-  orderId    Int?    @unique @default(autoincrement())
+  id         Int     @id @default(autoincrement())
   name       String?
   tags       Tag[]   @relation("Tag_group")
-  order      Int?
   meta_title String?
   meta_desc  String?
+  orderId    Int?    @unique @default(autoincrement())
 }

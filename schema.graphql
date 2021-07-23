@@ -163,7 +163,6 @@ input UsersCreateInput {
 """
 type Post {
   id: ID!
-  orderId: Int
   title: String
   status: String
   short_content: Post_short_content_DocumentField
@@ -171,6 +170,7 @@ type Post {
   image: ImageFieldOutput
   meta_title: String
   meta_desc: String
+  fb_post: String
   publishDate: String
   author: User
   tags(
@@ -195,7 +195,7 @@ type Post {
       reason: "This query will be removed in a future version. Please use tagsCount instead."
     )
   tagsCount(where: TagWhereInput! = {}): Int
-  order: Int
+  orderId: Int
 }
 
 type Post_short_content_DocumentField {
@@ -244,14 +244,6 @@ input PostWhereInput {
   id_gte: ID
   id_in: [ID!]
   id_not_in: [ID!]
-  orderId: Int
-  orderId_not: Int
-  orderId_lt: Int
-  orderId_lte: Int
-  orderId_gt: Int
-  orderId_gte: Int
-  orderId_in: [Int]
-  orderId_not_in: [Int]
   title: String
   title_not: String
   title_contains: String
@@ -310,6 +302,24 @@ input PostWhereInput {
   meta_desc_not_ends_with_i: String
   meta_desc_in: [String]
   meta_desc_not_in: [String]
+  fb_post: String
+  fb_post_not: String
+  fb_post_contains: String
+  fb_post_not_contains: String
+  fb_post_starts_with: String
+  fb_post_not_starts_with: String
+  fb_post_ends_with: String
+  fb_post_not_ends_with: String
+  fb_post_i: String
+  fb_post_not_i: String
+  fb_post_contains_i: String
+  fb_post_not_contains_i: String
+  fb_post_starts_with_i: String
+  fb_post_not_starts_with_i: String
+  fb_post_ends_with_i: String
+  fb_post_not_ends_with_i: String
+  fb_post_in: [String]
+  fb_post_not_in: [String]
   publishDate: String
   publishDate_not: String
   publishDate_lt: String
@@ -335,14 +345,14 @@ input PostWhereInput {
    condition must be false for all nodes
   """
   tags_none: TagWhereInput
-  order: Int
-  order_not: Int
-  order_lt: Int
-  order_lte: Int
-  order_gt: Int
-  order_gte: Int
-  order_in: [Int]
-  order_not_in: [Int]
+  orderId: Int
+  orderId_not: Int
+  orderId_lt: Int
+  orderId_lte: Int
+  orderId_gt: Int
+  orderId_gte: Int
+  orderId_in: [Int]
+  orderId_not_in: [Int]
 }
 
 input PostWhereUniqueInput {
@@ -353,8 +363,6 @@ input PostWhereUniqueInput {
 enum SortPostsBy {
   id_ASC
   id_DESC
-  orderId_ASC
-  orderId_DESC
   title_ASC
   title_DESC
   status_ASC
@@ -363,25 +371,26 @@ enum SortPostsBy {
   meta_title_DESC
   meta_desc_ASC
   meta_desc_DESC
+  fb_post_ASC
+  fb_post_DESC
   publishDate_ASC
   publishDate_DESC
-  order_ASC
-  order_DESC
+  orderId_ASC
+  orderId_DESC
 }
 
 input PostOrderByInput {
   id: OrderDirection
-  orderId: OrderDirection
   title: OrderDirection
   status: OrderDirection
   meta_title: OrderDirection
   meta_desc: OrderDirection
+  fb_post: OrderDirection
   publishDate: OrderDirection
-  order: OrderDirection
+  orderId: OrderDirection
 }
 
 input PostUpdateInput {
-  orderId: Int
   title: String
   status: String
   short_content: JSON
@@ -389,10 +398,11 @@ input PostUpdateInput {
   image: ImageFieldInput
   meta_title: String
   meta_desc: String
+  fb_post: String
   publishDate: String
   author: UserRelateToOneInput
   tags: TagRelateToManyInput
-  order: Int
+  orderId: Int
 }
 
 input ImageFieldInput {
@@ -425,7 +435,6 @@ input PostsUpdateInput {
 }
 
 input PostCreateInput {
-  orderId: Int
   title: String
   status: String
   short_content: JSON
@@ -433,10 +442,11 @@ input PostCreateInput {
   image: ImageFieldInput
   meta_title: String
   meta_desc: String
+  fb_post: String
   publishDate: String
   author: UserRelateToOneInput
   tags: TagRelateToManyInput
-  order: Int
+  orderId: Int
 }
 
 input PostsCreateInput {
@@ -448,7 +458,6 @@ input PostsCreateInput {
 """
 type Tag {
   id: ID!
-  orderId: Int
   name: String
   group: TagGroup
   posts(
@@ -473,9 +482,9 @@ type Tag {
       reason: "This query will be removed in a future version. Please use postsCount instead."
     )
   postsCount(where: PostWhereInput! = {}): Int
-  order: Int
   meta_title: String
   meta_desc: String
+  orderId: Int
 }
 
 input TagWhereInput {
@@ -489,14 +498,6 @@ input TagWhereInput {
   id_gte: ID
   id_in: [ID!]
   id_not_in: [ID!]
-  orderId: Int
-  orderId_not: Int
-  orderId_lt: Int
-  orderId_lte: Int
-  orderId_gt: Int
-  orderId_gte: Int
-  orderId_in: [Int]
-  orderId_not_in: [Int]
   name: String
   name_not: String
   name_contains: String
@@ -532,14 +533,6 @@ input TagWhereInput {
    condition must be false for all nodes
   """
   posts_none: PostWhereInput
-  order: Int
-  order_not: Int
-  order_lt: Int
-  order_lte: Int
-  order_gt: Int
-  order_gte: Int
-  order_in: [Int]
-  order_not_in: [Int]
   meta_title: String
   meta_title_not: String
   meta_title_contains: String
@@ -576,6 +569,14 @@ input TagWhereInput {
   meta_desc_not_ends_with_i: String
   meta_desc_in: [String]
   meta_desc_not_in: [String]
+  orderId: Int
+  orderId_not: Int
+  orderId_lt: Int
+  orderId_lte: Int
+  orderId_gt: Int
+  orderId_gte: Int
+  orderId_in: [Int]
+  orderId_not_in: [Int]
 }
 
 input TagWhereUniqueInput {
@@ -586,35 +587,31 @@ input TagWhereUniqueInput {
 enum SortTagsBy {
   id_ASC
   id_DESC
-  orderId_ASC
-  orderId_DESC
   name_ASC
   name_DESC
-  order_ASC
-  order_DESC
   meta_title_ASC
   meta_title_DESC
   meta_desc_ASC
   meta_desc_DESC
+  orderId_ASC
+  orderId_DESC
 }
 
 input TagOrderByInput {
   id: OrderDirection
-  orderId: OrderDirection
   name: OrderDirection
-  order: OrderDirection
   meta_title: OrderDirection
   meta_desc: OrderDirection
+  orderId: OrderDirection
 }
 
 input TagUpdateInput {
-  orderId: Int
   name: String
   group: TagGroupRelateToOneInput
   posts: PostRelateToManyInput
-  order: Int
   meta_title: String
   meta_desc: String
+  orderId: Int
 }
 
 input TagGroupRelateToOneInput {
@@ -630,13 +627,12 @@ input TagsUpdateInput {
 }
 
 input TagCreateInput {
-  orderId: Int
   name: String
   group: TagGroupRelateToOneInput
   posts: PostRelateToManyInput
-  order: Int
   meta_title: String
   meta_desc: String
+  orderId: Int
 }
 
 input TagsCreateInput {
@@ -648,7 +644,6 @@ input TagsCreateInput {
 """
 type TagGroup {
   id: ID!
-  orderId: Int
   name: String
   tags(
     where: TagWhereInput! = {}
@@ -672,9 +667,9 @@ type TagGroup {
       reason: "This query will be removed in a future version. Please use tagsCount instead."
     )
   tagsCount(where: TagWhereInput! = {}): Int
-  order: Int
   meta_title: String
   meta_desc: String
+  orderId: Int
 }
 
 input TagGroupWhereInput {
@@ -688,14 +683,6 @@ input TagGroupWhereInput {
   id_gte: ID
   id_in: [ID!]
   id_not_in: [ID!]
-  orderId: Int
-  orderId_not: Int
-  orderId_lt: Int
-  orderId_lte: Int
-  orderId_gt: Int
-  orderId_gte: Int
-  orderId_in: [Int]
-  orderId_not_in: [Int]
   name: String
   name_not: String
   name_contains: String
@@ -729,14 +716,6 @@ input TagGroupWhereInput {
    condition must be false for all nodes
   """
   tags_none: TagWhereInput
-  order: Int
-  order_not: Int
-  order_lt: Int
-  order_lte: Int
-  order_gt: Int
-  order_gte: Int
-  order_in: [Int]
-  order_not_in: [Int]
   meta_title: String
   meta_title_not: String
   meta_title_contains: String
@@ -773,6 +752,14 @@ input TagGroupWhereInput {
   meta_desc_not_ends_with_i: String
   meta_desc_in: [String]
   meta_desc_not_in: [String]
+  orderId: Int
+  orderId_not: Int
+  orderId_lt: Int
+  orderId_lte: Int
+  orderId_gt: Int
+  orderId_gte: Int
+  orderId_in: [Int]
+  orderId_not_in: [Int]
 }
 
 input TagGroupWhereUniqueInput {
@@ -783,34 +770,30 @@ input TagGroupWhereUniqueInput {
 enum SortTagGroupsBy {
   id_ASC
   id_DESC
-  orderId_ASC
-  orderId_DESC
   name_ASC
   name_DESC
-  order_ASC
-  order_DESC
   meta_title_ASC
   meta_title_DESC
   meta_desc_ASC
   meta_desc_DESC
+  orderId_ASC
+  orderId_DESC
 }
 
 input TagGroupOrderByInput {
   id: OrderDirection
-  orderId: OrderDirection
   name: OrderDirection
-  order: OrderDirection
   meta_title: OrderDirection
   meta_desc: OrderDirection
+  orderId: OrderDirection
 }
 
 input TagGroupUpdateInput {
-  orderId: Int
   name: String
   tags: TagRelateToManyInput
-  order: Int
   meta_title: String
   meta_desc: String
+  orderId: Int
 }
 
 input TagGroupsUpdateInput {
@@ -819,12 +802,11 @@ input TagGroupsUpdateInput {
 }
 
 input TagGroupCreateInput {
-  orderId: Int
   name: String
   tags: TagRelateToManyInput
-  order: Int
   meta_title: String
   meta_desc: String
+  orderId: Int
 }
 
 input TagGroupsCreateInput {

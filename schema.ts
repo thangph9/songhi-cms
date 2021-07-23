@@ -26,11 +26,7 @@ export const lists = createSchema({
   }),
   Post: list({
     fields: {
-      orderId: autoIncrement({
-         defaultValue: 1000,
-         isRequired: true,
-         isUnique: true,
-      }),
+
       title: text(),
       status: select({
         options: [
@@ -73,6 +69,10 @@ export const lists = createSchema({
           defaultValue: '...',
           ui: { displayMode: 'textarea' },
         }),
+      fb_post:text({
+        defaultValue: 'https://www.facebook.com/henhosonghi',
+        isRequired: true
+      }),
       publishDate: timestamp(),
       author: relationship({
         ref: 'User.posts',
@@ -96,7 +96,13 @@ export const lists = createSchema({
         },
         many: true,
       }),
-      order: integer(),
+      orderId: autoIncrement({
+         defaultValue: 1000,
+         isUnique: true,
+         ui: {
+           isHidden: true,
+         },
+      }),
     },
   }),
   Tag: list({
@@ -104,11 +110,6 @@ export const lists = createSchema({
       isHidden: true,
     },
     fields: {
-      orderId: autoIncrement({
-         defaultValue: 100,
-         isRequired: true,
-         isUnique: true,
-      }),
       name: text(),
       group: relationship({
         ref: 'TagGroup.tags',
@@ -118,32 +119,39 @@ export const lists = createSchema({
         ref: 'Post.tags',
         many: true,
       }),
-      order: integer(),
       meta_title: text(),
       meta_desc: text({
           defaultValue: '...',
           ui: { displayMode: 'textarea' },
+        }),
+      orderId: autoIncrement({
+           defaultValue: 1000,
+           isUnique: true,
+           ui: {
+             isHidden: true,
+           },
         }),
     },
   }),
   TagGroup: list({
     fields: {
-      orderId: autoIncrement({
-       defaultValue: 100,
-       isRequired: true,
-       isUnique: true,
-      }),
       name: text(),
       tags: relationship({
         ref: 'Tag.group',
         many: true,
       }),
-      order: integer(),
       meta_title: text(),
       meta_desc: text({
           defaultValue: '...',
           ui: { displayMode: 'textarea' },
-        }),
+      }),
+      orderId: autoIncrement({
+       defaultValue: 100,
+       isUnique: true,
+       ui: {
+         isHidden: true,
+       },
+      }),
     },
-  }),
+  })
 });

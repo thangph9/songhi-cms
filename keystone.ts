@@ -35,7 +35,8 @@ export default withAuth(
   config({
     db: {
       adapter: 'prisma_postgresql',
-      url: process.env.DATABASE_URL || 'postgres://postgres:songhi@123@localhost/songhi',
+      url: process.env.DATABASE_URL || 'postgres://postgres:songhi@123@localhost/songhi?currentSchema=songhi',
+      idField: { kind: 'autoincrement' }
     },
     ui: {
       isAccessAllowed: (context) => !!context.session?.data,
