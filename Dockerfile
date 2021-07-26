@@ -1,28 +1,27 @@
-# Check out https://hub.docker.com/_/node to select a new base image
-FROM node:12-slim
+# https://docs.docker.com/samples/library/node/
+ARG NODE_VERSION=12.20.0
+# https://github.com/Yelp/dumb-init/releases
+ARG DUMB_INIT_VERSION=1.2.2
 
-# Set to a non-root built-in user `node`
-USER node
+# Build container
+FROM node:${NODE_VERSION}-alpine AS build
+ARG DUMB_INIT_VERSION
 
-# Create app directory (with user `node`)
-RUN mkdir -p /home/node/app
+WORKDIR /home/node
 
-WORKDIR /home/node/app
+RUN apk add --no-cache build-base python2 yarn && \
+    wget -O dumb-init -q https://github.com/Yelp/dumb-init/releases/download/v${DUMB_INIT_VERSION}/dumb-init_${DUMB_INIT_VERSION}_amd64 && \
+    chmod +x dumb-init
+ADD . /home/node
 
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
-COPY --chown=node package*.json ./
+RUN yarn install --frozen-lockfile && yarn build && yarn cache clean
 
-RUN npm install
+# Runtime container
+FROM node:${NODE_VERSION}-alpine
 
-# Bundle app source code
-COPY --chown=node . .
+WORKDIR /home/node
 
-RUN npm run start
+COPY --from=build /home/node /home/node
 
-# Bind to all network interfaces so that it can be mapped to the host OS
-ENV NODE_ENV production
-ENV HOST=0.0.0.0 PORT=8080
-EXPOSE ${PORT}
-CMD [ "node", "." ]
+EXPOSE 3000
+CMD ["./dumb-init", "yarn", "start"]

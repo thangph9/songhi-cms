@@ -35,7 +35,7 @@ export default withAuth(
   config({
     db: {
       adapter: 'prisma_postgresql',
-      url: process.env.DATABASE_URL || 'postgres://postgres:songhi@123@localhost/songhi?currentSchema=songhi',
+      url: process.env.DATABASE_URL || 'postgres://postgres:songhi@123@localhost/songhi',
       idField: { kind: 'autoincrement' }
     },
     ui: {
@@ -44,7 +44,7 @@ export default withAuth(
     lists,
     session,
     server: {
-      cors: { origin: ['http://localhost:8080'], credentials: true },
+      cors: { origin: ['http://localhost:8080','http://127.0.0.1:3000', '*'], credentials: true },
       maxFileSize: 200 * 1024 * 1024
     },
     images: {
