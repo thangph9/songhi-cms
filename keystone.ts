@@ -35,7 +35,7 @@ export default withAuth(
   config({
     db: {
       adapter: 'prisma_postgresql',
-      url: process.env.DATABASE_URL || 'postgres://postgres:songhi@123@localhost/songhi',
+      url: process.env.DATABASE_URL || 'postgres://blog:blog@123@171.244.42.61/songhi_blog',
       idField: { kind: 'autoincrement' }
     },
     ui: {
