@@ -26,7 +26,6 @@ export const lists = createSchema({
   }),
   Post: list({
     fields: {
-
       title: text(),
       status: select({
         options: [
